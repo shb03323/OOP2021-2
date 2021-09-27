@@ -1,0 +1,2 @@
+hello|1234567890|1996|computer|
+minhyuk|1234123412|1998|computer|

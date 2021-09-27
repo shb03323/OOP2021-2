@@ -1,0 +1,4 @@
+﻿  prob2.cpp
+d:\study\2-2\oop\project1\project1\prob2.cpp(125): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\study\2-2\oop\project1\project1\prob2.cpp(134): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Project1.vcxproj -> D:\STUDY\2-2\OOP\Project1\Debug\Prob2.exe
