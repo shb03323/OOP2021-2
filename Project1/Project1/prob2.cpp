@@ -2,9 +2,12 @@
 #include <fstream>
 #include <string>
 #include <cctype>
+#include <vector>
 using namespace std;
 
 void insertion();
+void search();
+void searchByWhat(int selectNum, string keyword);
 bool isAlphabet(string name);
 bool isNumber(string str);
 
@@ -12,9 +15,9 @@ class Student {
 public:
 	string name;
 	string studentID;
-	string birthYear; //정확히 4숫자
+	string birthYear;
 	string department;
-	string tel; //최대 12숫자
+	string tel;
 };
 
 // 1. Insertion
@@ -112,12 +115,49 @@ void insertion() {
 			break;
 	}
 
+	// write student information in the file
 	Student student = { name, studentID, birthYear, department, tel };
 	ofstream studentFile("file1.txt", ios::app);
 	studentFile << name << "|" << studentID << "|" << birthYear << "|" << department << "|" << tel << endl;
 	studentFile.close();
 
 	cerr << "Insertion success!!" << endl;
+}
+
+// 2. Search
+void search() {
+	while (1) {
+		cerr << "----Search----" << endl;
+		cerr << "1. Search by name" << endl;
+		cerr << "2. Search by student ID (10 numbers)" << endl;
+		cerr << "3. Search by admission year (4 numbers)" << endl;
+		cerr << "4. Search by department name" << endl;
+		cerr << "5. List All" << endl;
+		cerr << "Your choice? : ";
+
+		short selectNum;
+		cin >> selectNum;
+
+		string keyword;
+
+		// 1. Search by name
+		if (selectNum == 1) {
+			cerr << "Student name keyword? : ";
+			cin >> keyword;
+			searchByWhat(selectNum, keyword);
+		}
+	}
+}
+
+void searchByWhat(int selectNum, string keyword) {
+	ifstream studentFile("file1.txt", ios::in);
+	string line;
+	string delim = "-";
+	while (getline(studentFile, line)) {
+		string str = line.c_str();
+	}
+	studentFile.close();
+	vector<string> words{};
 }
 
 // check string consists of alphabets
@@ -150,8 +190,13 @@ int main() {
 		short selectNum;
 		cin >> selectNum;
 
+		// 1. Insertion
 		if (selectNum == 1)
 			insertion();
+
+		// 2. Search
+		else if (selectNum == 2)
+			search();
 	}
 	system("pause");
 	return 0;
