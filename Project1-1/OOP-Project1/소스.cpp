@@ -68,11 +68,17 @@ Student Manager::putData() {
 		while (1) {
 			cout << "Name ? ";
 			getline(cin, name);
+
+			// make tempName string for erase space of name string
+			string tempName = name;
+			tempName.erase(remove(str.begin(), str.end(), ' '), str.end());
+			cout << tempName;
+
 			// name size must be less than 16 characters
-			if (name.size() > 15)
+			if (tempName.size() > 15)
 				cout << "Name has up to 15 English characters." << endl;
 			// name must be composed of alphabets
-			else if (!isAlpha(name))
+			else if (!isAlpha(tempName))
 				cout << "Name must be composed of alphabet." << endl;
 			// no error
 			else break;
