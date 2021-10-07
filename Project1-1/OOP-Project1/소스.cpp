@@ -4,6 +4,7 @@
 #include <vector>
 #include <windows.h>
 #include <algorithm>
+
 using namespace std;
 
 class Student {
@@ -101,6 +102,7 @@ bool icompare(const Student& a, const Student& b) {
 bool dcompare(const Student& a, const Student& b) {
 	return a.getDept() < b.getDept();
 }
+
 
 void printMenu() {
 	cout << "1. Insertion" << endl;
@@ -222,7 +224,10 @@ void sortMenu() {
 		}
 	}
 }
-int main() {
+
+
+
+int main(int argc, char **argv) {
 	readData();
 	while (1) {
 		system("cls");
