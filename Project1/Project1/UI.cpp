@@ -186,6 +186,7 @@ void StudentManageUI::getFile(char *input) {
   file_name = input;
   manager.readData(input);
 }
+
 int StudentManageUI::userInput() {
   cout << endl << "> ";
   // input search number
@@ -310,11 +311,13 @@ void StudentManageUI::mainUI() {
     case 2: {
       search_menu.printUI();
       option = userInput();
+      string keyword;
       if (option != 5) {
         search_process.print_guide(option);
-        search_process.to_search();
+        cin >> keyword;
       }
-      search_process.print_result(option, manager.showData()); //manaer로 
+      search_process.printUI(18);
+      manager.printSearchData(keyword, option);
       break;
     }
     case 3: {
@@ -323,12 +326,9 @@ void StudentManageUI::mainUI() {
       manager.sortData(option);
       print_search.printUI(18);
       manager.printData(18);
-      cout << "\nPress enter key to exit." << endl;
-      char exitbtn;
-      cin.get(exitbtn);
-      cin.ignore();
-      if (exitbtn == '\n')
-        break;
+      to_home();
+      break;
+      
     }
     case 4: {
       cout << "Exit the Program" << endl;
@@ -338,4 +338,13 @@ void StudentManageUI::mainUI() {
     }
   }
 }
-
+void to_home() {
+  cout << "\nPress enter key to exit." << endl;
+  char exitbtn;
+  while (1) {
+    cin.get(exitbtn);
+    cin.ignore();
+    if (exitbtn == '\n')
+      return;
+  }
+}

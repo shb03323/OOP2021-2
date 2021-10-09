@@ -4,6 +4,8 @@
 #include "header.h"
 #include "manager.h"
 
+void to_home();
+
 class UI{
 public:
   UI() {};
@@ -17,7 +19,7 @@ protected:
   int menu_num;
 };
 
-class Option : UI {
+class Option : public UI {
 public:
   Option() {};
   void print_guide(int selection) {
@@ -26,7 +28,6 @@ public:
   void to_search() {
     cin >> keyword;
   }
-  void print_result(int option, vector<Student> sVector);
   void insertGuide(string str) {
     guide_out.push_back(str);
   }
