@@ -21,7 +21,7 @@ class Option : UI {
 public:
   Option() {};
   void print_guide(int selection) {
-    cout << guide_out[selection] << endl;
+    cout << guide_out[selection - 1] << endl;
   }
   void to_search() {
     cin >> keyword;

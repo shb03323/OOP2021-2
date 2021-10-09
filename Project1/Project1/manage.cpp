@@ -2,15 +2,6 @@
 #include "utility.h"
 #include "header.h"
 
-/*
-// compare students name
-bool ncompare(const Student& a, const Student& b) { return a.getName() < b.getName(); }
-// compare students ID
-bool icompare(const Student& a, const Student& b) { return a.getId() < b.getId(); }
-// compare students department
-bool dcompare(const Student& a, const Student& b) { return a.getDept() < b.getDept(); }
-*/
-
 
 // check string consists of alphabets
 bool Manager::isAlpha(string str) {
@@ -63,14 +54,18 @@ void Manager::readData(char *file_name) {
 
 bool Manager::check_id_dup(string id) {
   if (!sVector.empty()) {
-    for (Student s : sVector) {
-      if (s.getId() == id) {
-        return true;
+      bool isIns = false;
+      for (Student s : sVector) {
+          if (s.getId() == id) {
+              isIns = true;
+              return true;
+          }
       }
+      if (!isIns) return false;
     }
-  }
-  else return false;
+    else return false;
 }
+
 
 void Manager::putData(Student s) {
   sVector.push_back(s);
@@ -83,7 +78,7 @@ void Manager::sortData(int option)
     sort(sVector.begin(), sVector.end(), ncompare);
     break;
   }
-  case 2 & 3: {
+  case 2: case 3: {
     sort(sVector.begin(), sVector.end(), icompare);
     break;
   }

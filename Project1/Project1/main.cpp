@@ -9,4 +9,6 @@ int main(int argc, char **argv) {
   }
   main.getFile(argv[1]);
   main.mainUI();
+
+  return 0;
 }

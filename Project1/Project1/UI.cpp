@@ -314,7 +314,7 @@ void StudentManageUI::mainUI() {
         search_process.print_guide(option);
         search_process.to_search();
       }
-      search_process.print_result(option, manager.showData());
+      search_process.print_result(option, manager.showData()); //manaer로 
       break;
     }
     case 3: {
@@ -325,14 +325,15 @@ void StudentManageUI::mainUI() {
       manager.printData(18);
       cout << "\nPress enter key to exit." << endl;
       char exitbtn;
-      cin.ignore();
       cin.get(exitbtn);
+      cin.ignore();
       if (exitbtn == '\n')
         break;
     }
     case 4: {
       cout << "Exit the Program" << endl;
-      
+      Sleep(1000);
+      return;
     }
     }
   }
