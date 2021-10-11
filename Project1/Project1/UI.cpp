@@ -186,6 +186,7 @@ void StudentManageUI::getFile(char *input) {
   file_name = input;
   manager.readData(input);
 }
+
 int StudentManageUI::userInput() {
   cout << endl << "> ";
   // input search number
@@ -194,101 +195,6 @@ int StudentManageUI::userInput() {
   cin.ignore(1);
   cout << " " << endl;
   return in;
-}
-
-
-void Option::print_result(int option, vector<Student> sVector) {
-  printUI(18);
-  switch (option) {
-  case 1: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getName().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by name
-  case 2: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getId().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by ID
-  case 3: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getId().substr(0, 4).compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by admission year
-  case 4: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getDept().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        //search by department
-  case 5: {
-    for (Student s : sVector)
-      cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // show all
-  }
 }
 
 void StudentManageUI::mainUI() {
@@ -310,11 +216,13 @@ void StudentManageUI::mainUI() {
     case 2: {
       search_menu.printUI();
       option = userInput();
+      string keyword;
       if (option != 5) {
         search_process.print_guide(option);
-        search_process.to_search();
+        cin >> keyword;
       }
-      search_process.print_result(option, manager.showData()); //manaer로 
+      search_process.printUI(18);
+      manager.printSearchData(keyword, option);
       break;
     }
     case 3: {
@@ -323,12 +231,9 @@ void StudentManageUI::mainUI() {
       manager.sortData(option);
       print_search.printUI(18);
       manager.printData(18);
-      cout << "\nPress enter key to exit." << endl;
-      char exitbtn;
-      cin.get(exitbtn);
-      cin.ignore();
-      if (exitbtn == '\n')
-        break;
+      to_home();
+      break;
+      
     }
     case 4: {
       cout << "Exit the Program" << endl;
@@ -339,3 +244,13 @@ void StudentManageUI::mainUI() {
   }
 }
 
+void to_home() {
+  cout << "\nPress enter key to exit." << endl;
+  char exitbtn;
+  while (1) {
+    cin.get(exitbtn);
+    //
+    if (exitbtn == '\n')
+      return;
+  }
+}

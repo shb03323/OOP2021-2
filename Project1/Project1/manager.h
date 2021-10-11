@@ -3,8 +3,6 @@
 
 #include "header.h"
 
-
-
 class Student {
 private:
   string name, id, birth_year, tel, dept;
