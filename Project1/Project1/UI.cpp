@@ -197,101 +197,6 @@ int StudentManageUI::userInput() {
   return in;
 }
 
-
-void Option::print_result(int option, vector<Student> sVector) {
-  printUI(18);
-  switch (option) {
-  case 1: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getName().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by name
-  case 2: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getId().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by ID
-  case 3: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getId().substr(0, 4).compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // search by admission year
-  case 4: {
-    int cnt = 0;
-    for (Student s : sVector) {
-      if (s.getDept().compare(keyword) == 0) {
-        cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-        cnt++;
-      }
-    }
-    if (cnt == 0)
-      cout << "Nothing to Show" << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        //search by department
-  case 5: {
-    for (Student s : sVector)
-      cout << setw(18) << s.getName() << setw(18) << s.getId() << setw(18) << s.getDept() << setw(18) << s.getBirth() << setw(18) << s.getTel() << endl;
-
-    cout << "\nPress enter key to exit." << endl;
-    char exitbtn;
-    cin.ignore();
-    cin.get(exitbtn);
-    if (exitbtn == '\n')
-      break;
-  }
-        // show all
-  }
-}
-
 void StudentManageUI::mainUI() {
   int in;
   int option;
@@ -338,12 +243,13 @@ void StudentManageUI::mainUI() {
     }
   }
 }
+
 void to_home() {
   cout << "\nPress enter key to exit." << endl;
   char exitbtn;
   while (1) {
     cin.get(exitbtn);
-    cin.ignore();
+    //
     if (exitbtn == '\n')
       return;
   }

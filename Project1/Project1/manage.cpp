@@ -180,7 +180,6 @@ void Manager::printSearchData(string keyword, int option) {
 
     cout << "\nPress enter key to exit." << endl;
     char exitbtn;
-    cin.ignore();
     cin.get(exitbtn);
     if (exitbtn == '\n')
       break;
