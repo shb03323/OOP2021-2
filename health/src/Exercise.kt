@@ -2,6 +2,7 @@ open class Exercise {
     var name : String = ""
 
     //fun getData() : Exercise
+
 }
 
 class Aerobic : Exercise {
@@ -10,6 +11,10 @@ class Aerobic : Exercise {
     constructor(_name : String, _time : Int) {
         name = _name
         time = _time
+    }
+
+    fun getTime(): Int{
+        return time
     }
 
     //override fun getData()
@@ -25,6 +30,15 @@ class Anaerobic : Exercise {
         weight = _weight
         exerciseSet = _exerciseSet
         rep = _rep
+    }
+    fun getWeight(): Int{
+        return weight
+    }
+    fun getSet(): Int{
+        return exerciseSet
+    }
+    fun getRep(): Int{
+        return rep
     }
 }
 
