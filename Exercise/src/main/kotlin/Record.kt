@@ -18,6 +18,19 @@ class Record {
         }
     }
 
+    // method to delete the exercise
+    fun delete(date: String, exName: String) {
+        if (dailyRecord.contains(date)) {
+            var tempList: List<Exercise> = dailyRecord[date]!!
+            for(i in tempList){
+                if (i.getExName() == exName) {
+                    tempList = tempList.minus(i);
+                    dailyRecord[date] = tempList
+                }
+            }
+        }
+    }
+
     // method for user's max weight or time exercise
     fun getMax(name: String): Exercise {
         val exerciseList = getExerciseList(name)
@@ -76,9 +89,24 @@ class Record {
     fun getTotal() : HashMap<String, List<Exercise>> {
         return dailyRecord
     }
+
     // method to view user's exercise record
     // when you input in parameter the date, you can see the exercise record of that day
     fun getRecord(date: String) : List<Exercise>? = dailyRecord[date]
+
+    // get list of DailyExercise
+    fun getList() : List<DailyExercise> {
+        var tempList: List<DailyExercise> = listOf()
+        for ((key, value) in dailyRecord) {
+            var tempString = ""
+            for (i in value) {
+                tempString = tempString.plus(i.name + " | ")
+            }
+            tempString = tempString.substring(0, tempString.length - 3)
+            tempList = tempList.plus(DailyExercise(key, tempString))
+        }
+        return tempList
+    }
 
     // when you input exercise name, you can get the list of record of exercise
     private fun getExerciseList(name: String): List<Exercise> {
