@@ -1,21 +1,18 @@
 import java.io.*
-import java.nio.file.*
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
 class DataIO {
-    fun fileRead() : HashMap<Calendar, List<Exercise>>{
-        // Return Map
-        var record = hashMapOf<Calendar, List<Exercise>>()
-        // Calendar Instance
-        val cal = Calendar.getInstance()
+    fun fileRead() : HashMap<String, List<Exercise>>{
+        // Return Map Type
+        var record = hashMapOf<String, List<Exercise>>()
         // Test File Path
         val path = "C:\\test\\exercise.txt"
         try{
-            var listOfLines = mutableListOf<String>()
+            val inputStream : InputStream = File(path).inputStream()
+            val listOfLines = mutableListOf<String>()
             // Add each line to list
-            File(path).bufferedReader().useLines { lines ->
+            inputStream.reader().useLines { lines ->
                 lines.forEach{
                     listOfLines.add(it)
                 }
@@ -25,34 +22,30 @@ class DataIO {
                 val parts = line.split('|')
                 // Length of parsed line
                 val length = parts.size
-                val date = parts[0].toInt()
+                // Date String
+                var date = parts[0]
 
-
-                // Set Year, Month, DAY
-                cal.add(Calendar.YEAR, date/10000)
-                cal.add(Calendar.MONTH, date/100)
-                cal.add(Calendar.DAY_OF_MONTH, date%100)
                 when (length) {
                     3-> {   // For Aerobic
                         // Not existing in list
-                        if (record[cal] == null)
-                            record[cal] = mutableListOf(Aerobic(parts[1].lowercase(Locale.getDefault()), parts[2]))
+                        if (!record.contains(date))
+                            record[date] = listOf(Aerobic(parts[1].lowercase(Locale.getDefault()), parts[2]))
                         // Existing in list
                         else {
-                            val list: List<Exercise>? = record[cal]
-                            list?.plus(Aerobic(parts[1], parts[2]))
-                            record[cal] = list!!
+                            var list: List<Exercise>? = record[date]
+                            list = list?.plus(Aerobic(parts[1], parts[2]))
+                            record[date] = list!!
                         }
                     }
                     5 -> {  // For Anaerobic
                         // Not existing in list
-                        if (record[cal] == null)
-                            record[cal] = mutableListOf(Anaerobic(parts[1].lowercase(Locale.getDefault()), parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
+                        if (!record.contains(date))
+                            record[date] = listOf(Anaerobic(parts[1].lowercase(Locale.getDefault()), parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
                         // Existing in list
                         else {
-                            val list: List<Exercise>? = record[cal]
-                            list?.plus(Anaerobic(parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
-                            record[cal] = list!!
+                            var list: List<Exercise>? = record[date]
+                            list = list?.plus(Anaerobic(parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
+                            record[date] = list!!
                         }
                     }
                     else -> {
@@ -60,16 +53,53 @@ class DataIO {
                     }
                 }
             }
+            inputStream.close()
         }catch (e: Exception){
             println(e.message)
         }
         return record
     }
 
-    fun fileWrite(exercise:Exercise){
+    fun fileWrite(record: Record){
         val path = "C:\\test\\exercise.txt"
 
-        val strBuilder = StringBuilder()
+        val rec = record.dailyRecord
+        val keys = rec.keys
+        val strBuilder: StringBuilder = StringBuilder()
+        for (key in keys){
+            val list = rec[key]
+            if (list != null) {
+                for (ex in list){
+                    strBuilder.append(key)
+                    strBuilder.append('|')
+                    if (ex is Aerobic){
+                        strBuilder.append(ex.getExName())
+                        strBuilder.append('|')
+                        strBuilder.append(ex.getExTime())
+                        strBuilder.append("\n")
+                    } else{
+                        ex as Anaerobic
+                        strBuilder.append(ex.getExName())
+                        strBuilder.append('|')
+                        strBuilder.append(ex.getExWeight())
+                        strBuilder.append('|')
+                        strBuilder.append(ex.getExSet())
+                        strBuilder.append('|')
+                        strBuilder.append(ex.getExRep())
+                        strBuilder.append("\n")
+                    }
+                }
+            }
+        }
+        try{
+            // File write
+            File(path).delete()
+            FileWriter(path, true).use{it.write(strBuilder.toString())}
+        }catch (e: Exception){
+            println(e.message)
+        }
+
+        /* val strBuilder = StringBuilder()
         // Format of Today Date
         val format1 = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         val todayDate = format1.format(Date().time)
@@ -101,6 +131,6 @@ class DataIO {
             Files.write(Paths.get(path), strBuilder.toString().toByteArray(), StandardOpenOption.APPEND)
         }catch (e: Exception){
             println(e.message)
-        }
+        } */
     }
 }
