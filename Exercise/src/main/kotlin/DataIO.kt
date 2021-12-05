@@ -7,7 +7,7 @@ class DataIO {
         // Return Map Type
         var record = hashMapOf<String, List<Exercise>>()
         // Test File Path
-        val path = "C:\\test\\exercise.txt"
+        val path = "./exercise.txt"
         try{
             val inputStream : InputStream = File(path).inputStream()
             val listOfLines = mutableListOf<String>()
@@ -61,7 +61,7 @@ class DataIO {
     }
 
     fun fileWrite(record: Record){
-        val path = "C:\\test\\exercise.txt"
+        val path = "./exercise.txt"
 
         val rec = record.dailyRecord
         val keys = rec.keys

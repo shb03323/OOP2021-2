@@ -4,6 +4,8 @@ abstract class Exercise {
 
     // get data of Exercise
     abstract fun getData() : Map<String, Any>
+    // get name of Exercise
+    fun getExName() : String { return name }
 }
 
 // Aerobic Exercise : inheritance of Exercise class
@@ -21,6 +23,9 @@ class Aerobic : Exercise {
         val timeOfSec = timeToSec(exTime)  // make time string to integer
         return mapOf<String, Any>("name" to name, "exTime" to timeOfSec)
     }
+
+    // get Exercise Time
+    fun getExTime() : String { return exTime }
 
     private fun timeToSec(exTime: String) : Int {
         val splitTime = exTime.split(":")  // create input format
@@ -56,9 +61,14 @@ class Anaerobic : Exercise {
         exSet = _exSet
         exRep = _exRep
     }
+    // get weight of Exercise
+    fun getExWeight() : Int { return exWeight}
+    // get set of Exercise
+    fun getExSet() : Int { return exSet}
+    // get repetition of Exercise
+    fun getExRep() : Int { return exRep}
     // get data of AnAerobic Exercise by Map collection
     override fun getData() : Map<String, Any> {
         return mapOf<String, Any>("name" to name, "exWeight" to exWeight, "exSet" to exSet, "exRep" to exRep)
     }
 }
-
