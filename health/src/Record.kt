@@ -1,14 +1,15 @@
+import java.lang.Math.*
+import java.util.*
 import kotlin.collections.HashMap
 
 class Record {
-    var dailyRecord : HashMap<Int, List<Exercise>> = hashMapOf()
-
+    var dailyRecord : HashMap<String, List<Exercise>> = hashMapOf()
     init {
         this.dailyRecord = dailyRecord
     }
 
-    // method to record the exercise
-    fun add(date: Int, exercise: Exercise) {
+    // method to add the exercise
+    fun add(date: String, exercise: Exercise) {
         if (!dailyRecord.contains(date)) {
             dailyRecord[date] = listOf(exercise)
         }
@@ -17,29 +18,6 @@ class Record {
             tempList = tempList.plus(exercise)
             dailyRecord.replace(date, tempList)
         }
-    }
-
-    // method to delete the exercise
-    fun delete(date: Int, exercise: Exercise) {
-        if (!dailyRecord.contains(date)) {
-            println("No data in that date.")
-            return
-        }
-
-        var tempList: List<Exercise> = dailyRecord[date]!!
-        var toggle = false
-        for (i in tempList) {
-            if (i == exercise) {
-                tempList = tempList.minus(exercise)
-                toggle = true
-            }
-        }
-        if (!toggle) {
-            println("No exercise you did in that date.")
-            return
-        }
-
-        dailyRecord.replace(date, tempList)
     }
 
     // method for user's max weight or time exercise
@@ -96,9 +74,13 @@ class Record {
         }
     }
 
+    // get total Record
+    fun getTotal() : HashMap<String, List<Exercise>> {
+        return dailyRecord
+    }
     // method to view user's exercise record
     // when you input in parameter the date, you can see the exercise record of that day
-    fun getRecord(date: Int) : List<Exercise>? = dailyRecord[date]
+    fun getRecord(date: String) : List<Exercise>? = dailyRecord[date]
 
     // when you input exercise name, you can get the list of record of exercise
     private fun getExerciseList(name: String): List<Exercise> {
