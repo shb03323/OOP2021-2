@@ -2,17 +2,18 @@ import java.io.*
 import java.nio.file.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 class DataIO {
-    fun fileRead() : Map<Calendar, MutableList<Exercise>>{
+    fun fileRead() : HashMap<Calendar, List<Exercise>>{
         // Return Map
-        var record = mutableMapOf<Calendar, MutableList<Exercise>>()
+        var record = hashMapOf<Calendar, List<Exercise>>()
         // Calendar Instance
         val cal = Calendar.getInstance()
         // Test File Path
         val path = "C:\\test\\exercise.txt"
         try{
-            val listOfLines = mutableListOf<String>()
+            var listOfLines = mutableListOf<String>()
             // Add each line to list
             File(path).bufferedReader().useLines { lines ->
                 lines.forEach{
@@ -38,8 +39,8 @@ class DataIO {
                             record[cal] = mutableListOf(Aerobic(parts[1].lowercase(Locale.getDefault()), parts[2]))
                         // Existing in list
                         else {
-                            val list: MutableList<Exercise>? = record[cal]
-                            list?.add(Aerobic(parts[1], parts[2]))
+                            val list: List<Exercise>? = record[cal]
+                            list?.plus(Aerobic(parts[1], parts[2]))
                             record[cal] = list!!
                         }
                     }
@@ -49,8 +50,8 @@ class DataIO {
                             record[cal] = mutableListOf(Anaerobic(parts[1].lowercase(Locale.getDefault()), parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
                         // Existing in list
                         else {
-                            val list: MutableList<Exercise>? = record[cal]
-                            list?.add(Anaerobic(parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
+                            val list: List<Exercise>? = record[cal]
+                            list?.plus(Anaerobic(parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
                             record[cal] = list!!
                         }
                     }
@@ -98,7 +99,6 @@ class DataIO {
         try{
             // File write
             Files.write(Paths.get(path), strBuilder.toString().toByteArray(), StandardOpenOption.APPEND)
-            println("write completed $strBuilder")
         }catch (e: Exception){
             println(e.message)
         }

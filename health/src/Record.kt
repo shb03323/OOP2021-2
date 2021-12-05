@@ -3,14 +3,13 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class Record {
-    var dailyRecord : HashMap<Int, List<Exercise>> = hashMapOf()
-
+    var dailyRecord : HashMap<Calendar, List<Exercise>> = hashMapOf()
     init {
         this.dailyRecord = dailyRecord
     }
 
     // method to record the exercise
-    fun record(date: Int, exercise: Exercise) {
+    fun record(date: Calendar, exercise: Exercise) {
         if (!dailyRecord.contains(date)) {
             dailyRecord[date] = listOf(exercise)
         }
@@ -77,7 +76,7 @@ class Record {
 
     // method to view user's exercise record
     // when you input in parameter the date, you can see the exercise record of that day
-    fun getRecord(date: Int) : List<Exercise>? = dailyRecord[date]
+    fun getRecord(date: Calendar) : List<Exercise>? = dailyRecord[date]
 
     // when you input exercise name, you can get the list of record of exercise
     private fun getExerciseList(name: String): List<Exercise> {
