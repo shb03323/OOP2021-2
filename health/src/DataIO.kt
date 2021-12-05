@@ -1,6 +1,6 @@
 import java.io.*
+import java.nio.file.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class DataIO {
@@ -26,6 +26,7 @@ class DataIO {
                 val length = parts.size
                 val date = parts[0].toInt()
 
+
                 // Set Year, Month, DAY
                 cal.add(Calendar.YEAR, date/10000)
                 cal.add(Calendar.MONTH, date/100)
@@ -34,18 +35,18 @@ class DataIO {
                     3-> {   // For Aerobic
                         // Not existing in list
                         if (record[cal] == null)
-                            record[cal] = mutableListOf(Aerobic(parts[1], parts[2].toInt()))
+                            record[cal] = mutableListOf(Aerobic(parts[1].lowercase(Locale.getDefault()), parts[2]))
                         // Existing in list
                         else {
                             val list: MutableList<Exercise>? = record[cal]
-                            list?.add(Aerobic(parts[1], parts[2].toInt()))
+                            list?.add(Aerobic(parts[1], parts[2]))
                             record[cal] = list!!
                         }
                     }
                     5 -> {  // For Anaerobic
                         // Not existing in list
                         if (record[cal] == null)
-                            record[cal] = mutableListOf(Anaerobic(parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
+                            record[cal] = mutableListOf(Anaerobic(parts[1].lowercase(Locale.getDefault()), parts[2].toInt(), parts[3].toInt(), parts[4].toInt()))
                         // Existing in list
                         else {
                             val list: MutableList<Exercise>? = record[cal]
@@ -68,30 +69,36 @@ class DataIO {
         val path = "C:\\test\\exercise.txt"
 
         val strBuilder = StringBuilder()
-        val format1 = SimpleDateFormat("yyyyMMdd")
-        val todayDate = format1.format(LocalDate.now())
+        // Format of Today Date
+        val format1 = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+        val todayDate = format1.format(Date().time)
+        // File Write Format for Aerobic Exercise
         if (exercise is Aerobic){
             strBuilder.append(todayDate)
             strBuilder.append('|')
-            strBuilder.append(exercise.name)
+            strBuilder.append(exercise.getExName())
             strBuilder.append('|')
-            strBuilder.append(exercise.getTime())
-
+            strBuilder.append(exercise.getExTime())
+            strBuilder.append("\n")
         }
+        // File Write Format for Anaerobic Exercise
         else {
             exercise as Anaerobic
             strBuilder.append(todayDate)
             strBuilder.append('|')
-            strBuilder.append(exercise.name)
+            strBuilder.append(exercise.getExName())
             strBuilder.append('|')
-            strBuilder.append(exercise.getWeight())
+            strBuilder.append(exercise.getExWeight())
             strBuilder.append('|')
-            strBuilder.append(exercise.getSet())
+            strBuilder.append(exercise.getExSet())
             strBuilder.append('|')
-            strBuilder.append(exercise.getRep())
+            strBuilder.append(exercise.getExRep())
+            strBuilder.append("\n")
         }
         try{
-            File(path).bufferedWriter().write(strBuilder.toString())
+            // File write
+            Files.write(Paths.get(path), strBuilder.toString().toByteArray(), StandardOpenOption.APPEND)
+            println("write completed $strBuilder")
         }catch (e: Exception){
             println(e.message)
         }
