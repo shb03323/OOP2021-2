@@ -1,5 +1,4 @@
 import tornadofx.*
-import java.text.SimpleDateFormat
 
 fun main() {
     // For Test

@@ -5,9 +5,12 @@ import javafx.geometry.Insets
 import java.util.*
 
 class UI : View() {
+    private val rec : Record = Record()
+    private val io : DataIO = DataIO()
     override val root = borderpane {
         prefWidth = 800.0
         prefHeight = 600.0
+        rec.dailyRecord = io.fileRead()
 
         top {
             menubar {
