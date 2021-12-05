@@ -1,5 +1,3 @@
-import java.lang.Math.*
-import java.util.*
 import kotlin.collections.HashMap
 
 class Record {
@@ -10,7 +8,7 @@ class Record {
     }
 
     // method to record the exercise
-    fun record(date: Int, exercise: Exercise) {
+    fun add(date: Int, exercise: Exercise) {
         if (!dailyRecord.contains(date)) {
             dailyRecord[date] = listOf(exercise)
         }
@@ -19,6 +17,29 @@ class Record {
             tempList = tempList.plus(exercise)
             dailyRecord.replace(date, tempList)
         }
+    }
+
+    // method to delete the exercise
+    fun delete(date: Int, exercise: Exercise) {
+        if (!dailyRecord.contains(date)) {
+            println("No data in that date.")
+            return
+        }
+
+        var tempList: List<Exercise> = dailyRecord[date]!!
+        var toggle = false
+        for (i in tempList) {
+            if (i == exercise) {
+                tempList = tempList.minus(exercise)
+                toggle = true
+            }
+        }
+        if (!toggle) {
+            println("No exercise you did in that date.")
+            return
+        }
+
+        dailyRecord.replace(date, tempList)
     }
 
     // method for user's max weight or time exercise
