@@ -90,6 +90,12 @@ class Record {
         return dailyRecord
     }
 
+    // method for check the exercise is aerobic class
+    fun isAerobic(name : String) : Boolean {
+        val tempList = getExerciseList(name)
+        return tempList[0] is Aerobic
+    }
+
     // method to view user's exercise record
     // when you input in parameter the date, you can see the exercise record of that day
     fun getRecord(date: String) : List<Exercise>? = dailyRecord[date]
