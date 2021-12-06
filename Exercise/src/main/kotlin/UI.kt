@@ -32,13 +32,11 @@ class UI : View("Exercise Recorder") {
         }
 
         bottom = gridpane {
-            prefHeight = 50.0
-
             button("Add") {
                 prefWidth = 100.0
                 gridpaneConstraints {
                     columnIndex = 0
-                    marginTop = 15.0
+                    marginTopBottom(15.0)
                     marginLeftRight(50.0)
                 }
 
@@ -52,7 +50,7 @@ class UI : View("Exercise Recorder") {
                 prefWidth = 100.0
                 gridpaneConstraints {
                     columnIndex = 1
-                    marginTop = 15.0
+                    marginTopBottom(15.0)
                     marginLeftRight(50.0)
                 }
 
@@ -66,7 +64,7 @@ class UI : View("Exercise Recorder") {
                 prefWidth = 100.0
                 gridpaneConstraints {
                     columnIndex = 2
-                    marginTop = 15.0
+                    marginTopBottom(15.0)
                     marginLeftRight(50.0)
                 }
 
@@ -80,7 +78,7 @@ class UI : View("Exercise Recorder") {
                 prefWidth = 100.0
                 gridpaneConstraints {
                     columnIndex = 3
-                    marginTop = 15.0
+                    marginTopBottom(15.0)
                     marginLeftRight(50.0)
                 }
 
@@ -133,8 +131,7 @@ class AerobicFragment: Fragment() {
     private var sec : javafx.scene.control.TextField by singleAssign()
 
     override val root = form {
-        prefWidth = 250.0
-        prefHeight = 100.0
+        prefWidth = 300.0
 
         fieldset {
             field("Date") {
@@ -160,7 +157,8 @@ class AerobicFragment: Fragment() {
             button("commit") {
                 prefWidth = 100.0
                 gridpaneConstraints {
-                    marginLeftRight(75.0)
+                    marginLeftRight(100.0)
+                    marginBottom = 10.0
                 }
                 setOnAction {
                     close()
@@ -183,7 +181,7 @@ class AnaerobicFragment: Fragment() {
     private var rep : javafx.scene.control.TextField by singleAssign()
 
     override val root = form {
-        prefWidth = 250.0
+        prefWidth = 300.0
         prefHeight = 200.0
 
         fieldset {
@@ -212,7 +210,8 @@ class AnaerobicFragment: Fragment() {
             button("commit") {
                 prefWidth = 100.0
                 gridpaneConstraints {
-                    marginLeftRight(75.0)
+                    marginLeftRight(100.0)
+                    marginBottom = 10.0
                 }
                 setOnAction {
                     close()
@@ -231,7 +230,7 @@ class ModifyFragment: Fragment() {
     private var name : javafx.scene.control.TextField by singleAssign()
 
     override val root = form {
-        prefWidth = 200.0
+        prefWidth = 300.0
         prefHeight = 100.0
 
         fieldset {
@@ -247,7 +246,8 @@ class ModifyFragment: Fragment() {
             button("Modify") {
                 prefWidth = 100.0
                 gridpaneConstraints {
-                    marginLeftRight(50.0)
+                    marginLeftRight(100.0)
+                    marginBottom = 10.0
                 }
                 setOnAction {
                     close()
@@ -373,7 +373,7 @@ class DeleteFragment: Fragment() {
     private var name : javafx.scene.control.TextField by singleAssign()
 
     override val root = form {
-        prefWidth = 200.0
+        prefWidth = 300.0
         prefHeight = 100.0
 
         fieldset {
@@ -389,7 +389,8 @@ class DeleteFragment: Fragment() {
             button("delete") {
                 prefWidth = 100.0
                 gridpaneConstraints {
-                    marginLeftRight(50.0)
+                    marginLeftRight(100.0)
+                    marginBottom = 10.0
                 }
                 setOnAction {
                     close()
@@ -423,7 +424,7 @@ class SearchFragment: Fragment() {
     private var name : javafx.scene.control.TextField by singleAssign()
 
     override val root = form {
-        prefWidth = 250.0
+        prefWidth = 300.0
         prefHeight = 150.0
         val toggleGroup = ToggleGroup()
 
@@ -455,7 +456,7 @@ class SearchFragment: Fragment() {
             button("commit") {
                 prefWidth = 100.0
                 gridpaneConstraints {
-                    marginLeftRight(75.0)
+                    marginLeftRight(100.0)
                 }
                 setOnAction {
                     close()
@@ -465,7 +466,8 @@ class SearchFragment: Fragment() {
                     }
                     else if (avg.isSelected) {
                         tempAvg = rec.getAvg(name.text)
-                        find<AvgFragment>().openModal(stageStyle = StageStyle.UTILITY)
+                        if (rec.isAerobic(name.text)) AvgAerobicFragment().openWindow()
+                        else AvgAnaerobicFragment().openWindow()
                     }
                     else if (exInfo.isSelected) {
                         tempName = name.text
@@ -495,9 +497,6 @@ class SearchFragment: Fragment() {
 class NoDataFragment: Fragment() {
     override val root = borderpane {
         center {
-            style {
-                fontSize = 15.px
-            }
             label("Wrong Input!!") {
                 borderpaneConstraints {
                     marginTop = 30.0
@@ -526,28 +525,27 @@ class NoDataFragment: Fragment() {
 class AerobicMaxFragment: Fragment() {
     override val root = borderpane {
         center {
-            style {
-                fontSize = 15.px
-            }
+            prefWidth = 300.0
             label("Maximum Time is ${tempAerobic.getExTime()} !!") {
                 borderpaneConstraints {
+                    marginLeftRight(20.0)
                     marginTop = 30.0
                 }
             }
         }
 
         bottom {
-            prefHeight = 30.0
-            button("OK") {
-                prefWidth = 50.0
-                borderpaneConstraints {
-                    marginTopBottom(30.0)
-                    marginLeftRight(75.0)
-                }
-
-                setOnAction {
-                    close()
-                    UI().openWindow()
+            gridpane {
+                button("OK") {
+                    prefWidth = 50.0
+                    gridpaneConstraints {
+                        marginLeftRight(125.0)
+                        marginTopBottom(20.0)
+                    }
+                    setOnAction {
+                        close()
+                        UI().openWindow()
+                    }
                 }
             }
         }
@@ -557,10 +555,44 @@ class AerobicMaxFragment: Fragment() {
 class AnaerobicMaxFragment: Fragment() {
     override val root = borderpane {
         center {
-            style {
-                fontSize = 15.px
+            prefWidth = 300.0
+            label("Maximum Weight is ${tempAnaerobic.getExWeight()}kg !!") {
+                borderpaneConstraints {
+                    marginLeftRight(20.0)
+                    marginTop = 30.0
+                }
             }
-            label("Maximum Weight is ${tempAnaerobic.getExWeight()} !!") {
+        }
+
+        bottom {
+            gridpane {
+                button("OK") {
+                    prefWidth = 50.0
+                    gridpaneConstraints {
+                        marginLeftRight(125.0)
+                        marginTopBottom(20.0)
+                    }
+                    setOnAction {
+                        close()
+                        UI().openWindow()
+                    }
+                }
+            }
+        }
+    }
+}
+
+class AvgAerobicFragment: Fragment() {
+    override val root = borderpane {
+        center {
+            prefWidth = 200.0
+            var time = tempAvg.toInt()
+            val hour = time / 3600
+            time %= 3600
+            val min = time / 60
+            time %= 60
+            val sec = time
+            label("Average Time : $hour:$min:$sec") {
                 borderpaneConstraints {
                     marginTop = 30.0
                 }
@@ -568,7 +600,6 @@ class AnaerobicMaxFragment: Fragment() {
         }
 
         bottom {
-            prefHeight = 30.0
             button("OK") {
                 prefWidth = 50.0
                 borderpaneConstraints {
@@ -585,13 +616,11 @@ class AnaerobicMaxFragment: Fragment() {
     }
 }
 
-class AvgFragment: Fragment() {
+class AvgAnaerobicFragment: Fragment() {
     override val root = borderpane {
         center {
-            style {
-                fontSize = 15.px
-            }
-            label("Average Time or Weight : ${tempAvg.toString()}") {
+            prefWidth = 200.0
+            label("Average Weight : $tempAvg") {
                 borderpaneConstraints {
                     marginTop = 30.0
                 }
@@ -599,8 +628,8 @@ class AvgFragment: Fragment() {
         }
 
         bottom {
-            prefHeight = 30.0
             button("OK") {
+                prefWidth = 50.0
                 borderpaneConstraints {
                     marginTopBottom(30.0)
                     marginLeftRight(75.0)
@@ -623,7 +652,7 @@ class SearchAerobicFragment: Fragment() {
                 prefWidth = 100.0
             }
             readonlyColumn("Exercise", DailyAerobic::exName) {
-                prefWidth = 100.0
+                prefWidth = 150.0
             }
             readonlyColumn("Time", DailyAerobic::exTime) {
                 prefWidth = 100.0
@@ -635,7 +664,7 @@ class SearchAerobicFragment: Fragment() {
                 prefWidth = 50.0
                 gridpaneConstraints {
                     marginTopBottom(10.0)
-                    marginLeftRight(125.0)
+                    marginLeftRight(150.0)
                 }
                 setOnAction {
                     close()
@@ -666,7 +695,7 @@ class SearchAnaerobicFragment: Fragment() {
                 prefWidth = 100.0
             }
             readonlyColumn("Exercise", DailyAnaerobic::exName) {
-                prefWidth = 100.0
+                prefWidth = 150.0
             }
             readonlyColumn("Weight", DailyAnaerobic::exWeight) {
                 prefWidth = 100.0
@@ -684,7 +713,7 @@ class SearchAnaerobicFragment: Fragment() {
                 prefWidth = 50.0
                 gridpaneConstraints {
                     marginTopBottom(10.0)
-                    marginLeftRight(225.0)
+                    marginLeftRight(250.0)
                 }
                 setOnAction {
                     close()
@@ -711,4 +740,4 @@ class DailyExercise(val date : String, val exName : String)
 class DailyAerobic(val date : String, val exName : String, val exTime : String)
 class DailyAnaerobic(val date : String, val exName : String, val exWeight : Int, val exSet : Int, val exRep : Int)
 
-class MainApp : App(UI::class)
+class MainApp : App(UI::class, MyStyle::class)
