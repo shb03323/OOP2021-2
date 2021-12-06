@@ -33,5 +33,8 @@ class MyStyle: Stylesheet() {
             fontWeight = FontWeight.BOLD
             fontSize = 15.px
         }
+        datePicker {
+            fontFamily = "Malgun Gothic"
+        }
     }
 }
