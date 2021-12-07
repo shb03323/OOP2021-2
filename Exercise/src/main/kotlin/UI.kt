@@ -460,26 +460,41 @@ class SearchFragment: Fragment() {
                 }
                 setOnAction {
                     close()
-                    if (max.isSelected) {
-                        val result = rec.getMax(name.text)
-                        searchMax(result)
-                    }
-                    else if (avg.isSelected) {
-                        tempAvg = rec.getAvg(name.text)
-                        if (rec.isAerobic(name.text)) AvgAerobicFragment().openWindow()
-                        else AvgAnaerobicFragment().openWindow()
-                    }
-                    else if (exInfo.isSelected) {
-                        tempName = name.text
-                        if (rec.isAerobic(tempName)) SearchAerobicFragment().openWindow()
-                        else SearchAnaerobicFragment().openWindow()
-                    }
+                    if(getList().isEmpty()) find<NoDataFragment>().openModal(stageStyle = StageStyle.UTILITY)
                     else {
-                        find<NoDataFragment>().openModal(stageStyle = StageStyle.UTILITY)
+                        if (max.isSelected) {
+                            val result = rec.getMax(name.text)
+                            searchMax(result)
+                        }
+                        else if (avg.isSelected) {
+                            tempAvg = rec.getAvg(name.text)
+                            if (rec.isAerobic(name.text)) AvgAerobicFragment().openWindow()
+                            else AvgAnaerobicFragment().openWindow()
+                        }
+                        else if (exInfo.isSelected) {
+                            tempName = name.text
+                            if (rec.isAerobic(tempName)) SearchAerobicFragment().openWindow()
+                            else SearchAnaerobicFragment().openWindow()
+                        }
+                        else {
+                            find<NoDataFragment>().openModal(stageStyle = StageStyle.UTILITY)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun getList() : MutableList<DailyExercise> {
+        var exList : MutableList<DailyExercise> = mutableListOf()
+        for ((key, value) in rec.getTotal()) {
+            for (i in value) {
+                if (i.name == tempName) {
+                    exList.add(DailyExercise(key, i.name))
+                }
+            }
+        }
+        return exList
     }
 
     private fun searchMax(exercise: Exercise) {
