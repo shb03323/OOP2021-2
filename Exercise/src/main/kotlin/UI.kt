@@ -460,7 +460,7 @@ class SearchFragment: Fragment() {
                 }
                 setOnAction {
                     close()
-                    if(getList().isEmpty()) find<NoDataFragment>().openModal(stageStyle = StageStyle.UTILITY)
+                    if(getList(name.text).isEmpty()) find<NoDataFragment>().openModal(stageStyle = StageStyle.UTILITY)
                     else {
                         if (max.isSelected) {
                             val result = rec.getMax(name.text)
@@ -485,11 +485,11 @@ class SearchFragment: Fragment() {
         }
     }
 
-    private fun getList() : MutableList<DailyExercise> {
+    private fun getList(name : String) : MutableList<DailyExercise> {
         var exList : MutableList<DailyExercise> = mutableListOf()
         for ((key, value) in rec.getTotal()) {
             for (i in value) {
-                if (i.name == tempName) {
+                if (i.name == name) {
                     exList.add(DailyExercise(key, i.name))
                 }
             }
